@@ -13,3 +13,11 @@ loading dataa into stellargraph from pandas
 https://colab.research.google.com/drive/1hXwVDXaZNORPKzLGCDuY-rFHdlj1G-ap?usp=sharing
 reference gcn code
 
+https://ogb.stanford.edu/docs/nodeprop/
+load graph
+
+https://arxiv.org/archive/cs
+scrap docs
+
+
+
