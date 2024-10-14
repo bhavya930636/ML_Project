@@ -1,6 +1,6 @@
 # Ignore the entire dataset folder
 dataset/
-data/
+data/corpus/
 
 # Ignore the titleabs.tsv file
 titleabs.tsv
