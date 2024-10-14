@@ -1,6 +1,8 @@
 # Ignore the entire dataset folder
 dataset/
+data/
 
 # Ignore the titleabs.tsv file
 titleabs.tsv
+new_titles_abstracts.tsv
 
