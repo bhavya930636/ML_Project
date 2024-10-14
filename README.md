@@ -5,18 +5,37 @@ A folder called dataset will be loaded into your local system
 Graph will be loaded and you can see the features,nodes,edges,labels(40)
 Number of nodes: 169343
 Number of edges: 1166243
+Form a folder called data and in it a folder corpusw
+then when you run this file graph_node_labels.txt and graph_node_corpus.txt will be formed
 
-Go to dataset/openarxiv/mapping/nodeidx2paperid.csv.gz and extract it
+/data/graph_node_labels.txt indicates document names, training/test split, document labels. Each line is for a document.
 
-Go to mappings.ipynb and run it
+/data/corpus/graph_node_corpus.txt contains raw text of each document, each line is for the corresponding line in /data/20ng.txt
 
-There we will find node to paper index mapping
-node ID to paper ID
+Loading the Dataset:
 
-Run the titleabs.ipynb for seeing the title,abstract of papers 
-these are indexed with the paper ID found in mappings.ipynb
+  The ogbn-arxiv dataset is loaded using PygNodePropPredDataset.
+    The train, validation, and test splits are obtained.
 
-We have to now make a graph for textgcn using the title and abstracts 
+Creating DataFrames:
+
+  A DataFrame (df_traintest) is created to store node IDs and their respective train/valid/test labels.
+    Another DataFrame (df_labels) is created to store node IDs and their labels.
+
+Data Merging:
+
+  The code merges the node ID mapping (nodeidx2paperid.csv) with a DataFrame containing paper titles and abstracts (new_titles_abstracts.tsv) to enrich the dataset with metadata.
+
+Preparing Sentences:
+
+  Sentences are created by concatenating the title and abstract for each paper.
+    Labels and train/test indications are prepared for each node.
+
+Writing to Files:
+
+  The metadata is written to graph_node_labels.txt.
+    The corpus is written to graph_node_corpus.txt.
+
 https://github.com/yao8839836/text_gcn
 Link to code for textgcn
 Then we run textgcn on it to find the "text" embeddings for each doc
