@@ -3,9 +3,8 @@ Run the Loading_data file
 
 A folder called dataset will be loaded into your local system
 Graph will be loaded and you can see the features,nodes,edges,labels(40)
-Number of nodes: 169343
-Number of edges: 1166243
-Form a folder called data and in it a folder corpusw
+
+Form a folder called data and in it a folder corpus
 then when you run this file graph_node_labels.txt and graph_node_corpus.txt will be formed
 
 /data/graph_node_labels.txt indicates document names, training/test split, document labels. Each line is for a document.
