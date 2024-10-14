@@ -1,3 +1,17 @@
+##How to access the data
+Run the Loading_data file
+
+A folder called dataset will be loaded into your local system
+
+Go to dataset/openarxiv/mapping/nodeidx2paperid.csv.gz and extract it
+
+Go to mappings.ipynb and run it
+
+There we will find node to paper index mapping
+
+
+
+
 https://stellargraph.readthedocs.io/en/stable/demos/embeddings/metapath2vec-embeddings.html
 Metapath2vec
 

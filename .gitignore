@@ -1,0 +1,6 @@
+# Ignore the entire dataset folder
+dataset/
+
+# Ignore the titleabs.tsv file
+titleabs.tsv
+
