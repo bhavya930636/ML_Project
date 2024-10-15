@@ -1,0 +1,199 @@
+import argparse  # for command-line arguments
+
+import torch  #for deep learning functionalities
+import torch.nn.functional as F  # functional tools from PyTorch for neural networks
+
+import torch_geometric.transforms as T  # transformation tools for graph data
+from torch_geometric.nn import GCNConv, SAGEConv  #  specific layers for Gcn and GraphSAGE
+
+from ogb.nodeproppred import PygNodePropPredDataset, Evaluator  # dataset and evaluator from Open Graph Benchmark
+
+from logger import Logger  # a custom logger to track experiment results
+
+
+# Defining the GCN class, which is implementing a gcn
+class GCN(torch.nn.Module):
+    def __init__(self, in_channels, hidden_channels, out_channels, num_layers, dropout):
+        super(GCN, self).__init__()  # Calling the constructor of the parent class to initialize the model
+
+        # Creating a list to hold multiple graph convolutional layers
+        self.convs = torch.nn.ModuleList()
+        # Adding the first layer, which transforms input features to hidden features
+        self.convs.append(GCNConv(in_channels, hidden_channels, cached=True))
+        # Creating a list to hold batch normalization layers
+        self.bns = torch.nn.ModuleList()
+        self.bns.append(torch.nn.BatchNorm1d(hidden_channels))  # Adding batch normalization for the first layer
+        
+        # Adding hidden layers, which keep transforming features
+        for _ in range(num_layers - 2):  # Looping to create the specified number of hidden layers
+            self.convs.append(GCNConv(hidden_channels, hidden_channels, cached=True))  # Adding another layer
+            self.bns.append(torch.nn.BatchNorm1d(hidden_channels))  # Adding batch normalization for each layer
+        
+        # Adding the final output layer, which transforms hidden features to output classes
+        self.convs.append(GCNConv(hidden_channels, out_channels, cached=True))
+
+        self.dropout = dropout  # Storing the dropout rate to use later
+
+    def reset_parameters(self):
+        # Resetting parameters of all layers to start fresh training
+        for conv in self.convs:
+            conv.reset_parameters()  # Resetting each convolutional layer
+        for bn in self.bns:
+            bn.reset_parameters()  # Resetting each batch normalization layer
+
+    def forward(self, x, adj_t):
+        # Defining how data is flowing through the network during a forward pass
+        for i, conv in enumerate(self.convs[:-1]):  # Looping through all layers except the last one
+            x = conv(x, adj_t)  # Applying the convolutional layer to the input data
+            x = self.bns[i](x)  # Applying batch normalization to the output of the convolution
+            x = F.relu(x)  # Applying the ReLU activation function to introduce non-linearity
+            x = F.dropout(x, p=self.dropout, training=self.training)  # Applying dropout for regularization
+        x = self.convs[-1](x, adj_t)  # Applying the final layer to get the output
+        return x.log_softmax(dim=-1)  # Returning log probabilities of the output classes
+
+
+# Defining the SAGE class, which is implementing GraphSAGE (a type of Gnn)
+class SAGE(torch.nn.Module):
+    def __init__(self, in_channels, hidden_channels, out_channels, num_layers, dropout):
+        super(SAGE, self).__init__()  # Calling the constructor of the parent class to initialize the model
+
+        self.convs = torch.nn.ModuleList()  # Creating a list to hold multiple GraphSAGE layers
+        # Adding the first layer to transform input features to hidden features
+        self.convs.append(SAGEConv(in_channels, hidden_channels))
+        self.bns = torch.nn.ModuleList()  # Creating a list for batch normalization layers
+        self.bns.append(torch.nn.BatchNorm1d(hidden_channels))  # Adding batch normalization for the first layer
+        
+        # Adding hidden layers
+        for _ in range(num_layers - 2):  # Looping to create hidden layers
+            self.convs.append(SAGEConv(hidden_channels, hidden_channels))  # Adding another layer
+            self.bns.append(torch.nn.BatchNorm1d(hidden_channels))  # Adding batch normalization for each layer
+        
+        # Adding the final output layer
+        self.convs.append(SAGEConv(hidden_channels, out_channels))
+
+        self.dropout = dropout  # Storing the dropout rate
+
+    def reset_parameters(self):
+        # Resetting parameters of all layers to start fresh training
+        for conv in self.convs:
+            conv.reset_parameters()  # Resetting each layer
+        for bn in self.bns:
+            bn.reset_parameters()  # Resetting each batch normalization layer
+
+    def forward(self, x, adj_t):
+        # Defining how data is flowing through the network during a forward pass
+        for i, conv in enumerate(self.convs[:-1]):  # Looping through all layers except the last one
+            x = conv(x, adj_t)  # Applying the convolutional layer to the input data
+            x = self.bns[i](x)  # Applying batch normalization to the output of the convolution
+            x = F.relu(x)  # Applying the ReLU activation function to introduce non-linearity
+            x = F.dropout(x, p=self.dropout, training=self.training)  # Applying dropout for regularization
+        x = self.convs[-1](x, adj_t)  # Applying the final layer to get the output
+        return x.log_softmax(dim=-1)  # Returning log probabilities of the output classes
+
+
+# Defining the training function
+def train(model, data, train_idx, optimizer):
+    model.train()  # Setting the model to training mode to enable dropout and batch normalization
+
+    optimizer.zero_grad()  # Clearing any existing gradients from previous steps
+    out = model(data.x, data.adj_t)[train_idx]  # Performing a forward pass and getting predictions for training data
+    loss = F.nll_loss(out, data.y.squeeze(1)[train_idx])  # Calculating the negative log likelihood loss
+    loss.backward()  # Performing backpropagation to compute gradients
+    optimizer.step()  # Updating the model parameters using the optimizer
+
+    return loss.item()  # Returning the current loss value
+
+
+# Defining the testing function
+@torch.no_grad()  # Disabling gradient calculations for testing to save memory
+def test(model, data, split_idx, evaluator):
+    model.eval()  # Setting the model to evaluation mode to disable dropout and batch normalization
+
+    out = model(data.x, data.adj_t)  # Performing a forward pass for all nodes to get predictions
+    y_pred = out.argmax(dim=-1, keepdim=True)  # Getting the predicted classes by selecting the class with the highest probability
+
+    # Calculating accuracy for train, validation, and test sets
+    train_acc = evaluator.eval({
+        'y_true': data.y[split_idx['train']],
+        'y_pred': y_pred[split_idx['train']],
+    })['acc']  # Evaluating accuracy on training data
+    valid_acc = evaluator.eval({
+        'y_true': data.y[split_idx['valid']],
+        'y_pred': y_pred[split_idx['valid']],
+    })['acc']  # Evaluating accuracy on validation data
+    test_acc = evaluator.eval({
+        'y_true': data.y[split_idx['test']],
+        'y_pred': y_pred[split_idx['test']],
+    })['acc']  # Evaluating accuracy on test data
+
+    return train_acc, valid_acc, test_acc  # Returning the accuracy values
+
+
+# Defining the main function where the program execution starts
+def main():
+    parser = argparse.ArgumentParser(description='OGBN-Arxiv (GNN)')  # Creating an argument parser for command-line arguments
+    # Defining command-line arguments with default values
+    parser.add_argument('--device', type=int, default=0)  # Device ID for using GPU (default is 0)
+    parser.add_argument('--log_steps', type=int, default=1)  # Steps for logging progress
+    parser.add_argument('--use_sage', action='store_true')  # Flag for using GraphSAGE model
+    parser.add_argument('--num_layers', type=int, default=3)  # Number of layers in the model
+    parser.add_argument('--hidden_channels', type=int, default=256)  # Number of hidden channels in each layer
+    parser.add_argument('--dropout', type=float, default=0.5)  # Dropout rate for regularization
+    parser.add_argument('--lr', type=float, default=0.01)  # Learning rate for the optimizer
+    parser.add_argument('--epochs', type=int, default=500)  # Total number of training epochs
+    parser.add_argument('--runs', type=int, default=10)  # Number of different runs to evaluate variability
+    args = parser.parse_args()  # Parsing the command-line arguments
+    print(args)  # Printing the parsed arguments for verification
+
+    # Setting the device to use for computation, checking if CUDA is available
+    device = f'cuda:{args.device}' if torch.cuda.is_available() else 'cpu'  # Choosing GPU or CPU
+    device = torch.device(device)  # Converting the device to a PyTorch device object
+
+    # Loading the OGBN-Arxiv dataset for node property prediction
+    dataset = PygNodePropPredDataset(name='ogbn-arxiv', transform=T.ToSparseTensor())  # Loading the dataset
+    data = dataset[0]  # Getting the first graph data
+    data = data.to(device)  # Moving the data to the selected device
+
+    evaluator = Evaluator(name='ogbn-arxiv')  # Initializing the evaluator for performance metrics
+    split_idx = dataset.get_idx_split()  # Getting the indices for train, validation, and test splits
+
+    # Initializing the chosen model (GCN or GraphSAGE)
+    if args.use_sage:
+        model = SAGE(in_channels=dataset.num_node_features,
+                     hidden_channels=args.hidden_channels,
+                     out_channels=dataset.num_classes,
+                     num_layers=args.num_layers,
+                     dropout=args.dropout).to(device)  # Initializing the GraphSAGE model
+    else:
+        model = GCN(in_channels=dataset.num_node_features,
+                     hidden_channels=args.hidden_channels,
+                     out_channels=dataset.num_classes,
+                     num_layers=args.num_layers,
+                     dropout=args.dropout).to(device)  # Initializing the GCN model
+
+    # Setting up the optimizer to update model weights
+    optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)  # Using Adam optimizer
+
+    # Creating a logger to track performance metrics across runs
+    logger = Logger(args.runs, args)  # Initializing the logger
+
+    # Starting the training and evaluation process for multiple runs
+    for run in range(args.runs):  # Looping through the specified number of runs
+        model.reset_parameters()  # Resetting model parameters to start fresh
+        for epoch in range(1, args.epochs + 1):  # Looping through each epoch
+            loss = train(model, data, split_idx['train'], optimizer)  # Training the model and getting loss
+            # Logging the training progress every few epochs
+            if epoch % args.log_steps == 0:
+                print(f'Run: {run+1}, Epoch: {epoch:03d}, Loss: {loss:.4f}')  # Printing the current loss
+
+        # Testing the model after training
+        train_acc, valid_acc, test_acc = test(model, data, split_idx, evaluator)  # Evaluating the models accuracy
+        logger.add_result(run, train_acc, valid_acc, test_acc)  # Storing the results in the logger
+
+    # Printing the final results after all runs
+    logger.print_statistics()  # Displaying the overall performance statistics
+
+
+# Executing the main function if this script is run directly
+if __name__ == "__main__":
+    main()  # Calling the main function to start the program
