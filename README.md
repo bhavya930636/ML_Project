@@ -35,14 +35,18 @@ Writing to Files:
   The metadata is written to graph_node_labels.txt.
     The corpus is written to graph_node_corpus.txt.
 
+## Cleaning the data (preprocessing text)
 cleaning_text.ipynb is used to clean the title_abstractand stored in data/clean_100.txt.
 
+## Forming graph
 Then graph.ipynb is used to form the graph of words and documents and the corresponding files are stored in data/ and data/corpus/
 
+## Train textGCN
 Then we will use train.py now to run textgcn on it to find the "text" embeddings for each doc
 https://github.com/yao8839836/text_gcn
 Link to code for textgcn
 
+## Train GCN
 gnn.ipynb is used to run GNN on citation graph loaded in loading_data file
 https://github.com/snap-stanford/ogb/tree/master/examples/nodeproppred/arxiv
 Code to run GNN on arxiv graph
@@ -51,6 +55,7 @@ This will give us the "citation_network" embedding
 Then we will predict the class using these embeddings by concatenating them or by using Neural network on them or by using ensemble learning maybe 
 if we want to do ensemble then both have to be trained on classification task 
 
+## Classes
 These are the 40 classes in which we want to classify the papers
 cs.AI - Artificial Intelligence
 cs.AR - Hardware Architecture
