@@ -5,4 +5,5 @@ data/corpus/
 # Ignore the titleabs.tsv file
 titleabs.tsv
 new_titles_abstracts.tsv
+.ipynb_checkpoints
 
