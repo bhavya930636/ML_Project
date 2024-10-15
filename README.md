@@ -9,7 +9,7 @@ then when you run this file graph_node_labels.txt and graph_node_corpus.txt will
 
 /data/graph_node_labels.txt indicates document names, training/test split, document labels. Each line is for a document.
 
-/data/corpus/graph_node_corpus.txt contains raw text of each document, each line is for the corresponding line in /data/20ng.txt
+/data/corpus/graph_node_corpus.txt contains raw text of each document, each line is for the corresponding line in /data/graph_node_labels.txt
 
 Loading the Dataset:
 
