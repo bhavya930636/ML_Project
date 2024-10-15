@@ -1,9 +1,7 @@
 # Ignore the entire dataset folder
+data/corpus/graph_node_corpus.txt
 dataset/
-data/corpus/
-
 # Ignore the titleabs.tsv file
-titleabs.tsv
 new_titles_abstracts.tsv
 .ipynb_checkpoints
 

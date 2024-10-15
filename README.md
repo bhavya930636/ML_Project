@@ -1,4 +1,4 @@
-##How to access the data
+## How to access the data
 Run the Loading_data file
 
 A folder called dataset will be loaded into your local system
@@ -89,8 +89,16 @@ cs.SE - Software Engineering
 cs.SI - Social and Information Networks
 cs.SY - Systems and Control
 
+Dataset taken from this paper
+Open Graph Benchmark:
+Datasets for Machine Learning on Graphs
 
+paper for textgcn
+Graph Convolutional Networks for Text Classification
 
+paper for idea of combining text and citations
+LEGAL CASE DOCUMENT SIMILARITY: YOU NEED BOTH
+NETWORK AND TEXT ∗
 
 APPENDIX
 https://stellargraph.readthedocs.io/en/stable/demos/embeddings/metapath2vec-embeddings.html
