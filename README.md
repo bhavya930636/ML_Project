@@ -35,11 +35,15 @@ Writing to Files:
   The metadata is written to graph_node_labels.txt.
     The corpus is written to graph_node_corpus.txt.
 
+cleaning_text.ipynb is used to clean the title_abstractand stored in data/clean_100.txt.
+
+Then graph.ipynb is used to form the graph of words and documents and the corresponding files are stored in data/ and data/corpus/
+
+Then we will use train.py now to run textgcn on it to find the "text" embeddings for each doc
 https://github.com/yao8839836/text_gcn
 Link to code for textgcn
-Then we run textgcn on it to find the "text" embeddings for each doc
 
-Then we run GNN on citation graph loaded in loading_data file
+gnn.ipynb is used to run GNN on citation graph loaded in loading_data file
 https://github.com/snap-stanford/ogb/tree/master/examples/nodeproppred/arxiv
 Code to run GNN on arxiv graph
 This will give us the "citation_network" embedding
