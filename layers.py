@@ -1,8 +1,10 @@
 from inits import *
 import tensorflow as tf
 
-flags = tf.app.flags
-FLAGS = flags.FLAGS
+import argparse#########
+
+parser = argparse.ArgumentParser()##########
+FLAGS = parser.parse_args()############
 
 # global unique layer ID dictionary for layer name assignment
 _LAYER_UIDS = {}

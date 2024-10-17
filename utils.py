@@ -149,7 +149,12 @@ def load_corpus(dataset_str):
     print(x.shape, y.shape, tx.shape, ty.shape, allx.shape, ally.shape)
 
     features = sp.vstack((allx, tx)).tolil()
-    labels = np.vstack((ally, ty))
+    if ty.size == 0:
+    	print("Warning: ty is empty.")
+    	labels = ally  # or handle it as you see fit
+	else:
+   		labels = np.vstack((ally, ty))
+
     print(len(labels))
 
     train_idx_orig = parse_index_file(
