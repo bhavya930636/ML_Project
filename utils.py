@@ -20,7 +20,7 @@ def sample_mask(idx, l):
     """Create mask."""
     mask = np.zeros(l)
     mask[idx] = 1
-    return np.array(mask, dtype=np.bool)
+    return np.array(mask, dtype=bool)
 
 
 def load_data(dataset_str):
@@ -149,11 +149,7 @@ def load_corpus(dataset_str):
     print(x.shape, y.shape, tx.shape, ty.shape, allx.shape, ally.shape)
 
     features = sp.vstack((allx, tx)).tolil()
-    if ty.size == 0:
-    	print("Warning: ty is empty.")
-    	labels = ally  # or handle it as you see fit
-	else:
-   		labels = np.vstack((ally, ty))
+    labels = np.vstack((ally, ty))
 
     print(len(labels))
 

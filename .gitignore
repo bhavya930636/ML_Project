@@ -1,5 +1,5 @@
 # Ignore the entire dataset folder
-data/corpus/graph_node_corpus.txt
+data/corpus/all_corpus.txt
 dataset/
 # Ignore the titleabs.tsv file
 new_titles_abstracts.tsv
