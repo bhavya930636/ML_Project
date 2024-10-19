@@ -1,10 +1,10 @@
 from inits import *
 import tensorflow as tf
 
-import argparse#########
+#import argparse#########
 
-parser = argparse.ArgumentParser()##########
-FLAGS = parser.parse_args()############
+#parser = argparse.ArgumentParser()##########
+#FLAGS = parser.parse_args()############
 
 # global unique layer ID dictionary for layer name assignment
 _LAYER_UIDS = {}
@@ -151,8 +151,11 @@ class GraphConvolution(Layer):
 
         # helper variable for sparse dropout
         self.num_features_nonzero = placeholders['num_features_nonzero']
+	
+	#input_dim = self.input_dim if self.input_dim is not None else features[2][1]###
 
-        with tf.variable_scope(self.name + '_vars'):
+	#output_dim = self.output_dim if self.output_dim is not None else y_train.shape[1]###
+        with tf.name_scope(self.name + '_vars'):
             for i in range(len(self.support)):
                 self.vars['weights_' + str(i)] = glorot([input_dim, output_dim],
                                                         name='weights_' + str(i))
