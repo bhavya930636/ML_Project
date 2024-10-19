@@ -26,7 +26,9 @@ class Model(object):
 
         self.loss = 0
         self.accuracy = 0
-        self.optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate)
+        #self.optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate)
+        self.optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate)
+
         self.opt_op = None
         self.weight_decay = weight_decay
 
@@ -35,8 +37,7 @@ class Model(object):
 
     def build(self):
         """ Wrapper for _build() """
-        with tf.variable_scope(self.name):
-            self._build()
+        self._build()
 
         # Build sequential layer model
         self.activations.append(self.inputs)
@@ -132,7 +133,9 @@ class GCN(Model):
 
         self.inputs = placeholders['features']
         self.input_dim = input_dim
-        self.output_dim = placeholders['labels'].get_shape().as_list()[1]
+        #self.output_dim = placeholders['labels'].get_shape().as_list()[1]
+        self.output_dim = placeholders['labels'].shape[1]
+
         self.placeholders = placeholders
         self.hidden1 = hidden1
 
