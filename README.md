@@ -44,6 +44,7 @@ Then graph.ipynb is used to form the graph of words and documents and the corres
 ## Train textGCN
 Then we will use train.py now to run textgcn on it to find the "text" embeddings for each doc
 https://github.com/yao8839836/text_gcn
+https://github.com/codeKgu/Text-GCN
 Link to code for textgcn
 
 ## Train GCN
