@@ -44,6 +44,7 @@ Then graph.ipynb is used to form the graph of words and documents and the corres
 ## Train textGCN
 Then we will use train.py now to run textgcn on it to find the "text" embeddings for each doc
 https://github.com/yao8839836/text_gcn
+## Actual new link PyTorch
 https://github.com/codeKgu/Text-GCN
 Link to code for textgcn
 
@@ -52,6 +53,9 @@ gnn.ipynb is used to run GNN on citation graph loaded in loading_data file
 https://github.com/snap-stanford/ogb/tree/master/examples/nodeproppred/arxiv
 Code to run GNN on arxiv graph
 This will give us the "citation_network" embedding
+
+## Training Metrics
+https://www.comet.com/kritiarora2003/textgcn/view/new/panels
 
 Then we will predict the class using these embeddings by concatenating them or by using Neural network on them or by using ensemble learning maybe 
 if we want to do ensemble then both have to be trained on classification task 
