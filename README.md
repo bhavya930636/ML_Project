@@ -1,291 +1,140 @@
-## How to access the data
-Run the Loading_data file
+Here's a more visually engaging version of your markdown for GitHub, complete with emojis for extra appeal:
 
-A folder called dataset will be loaded into your local system
-Graph will be loaded and you can see the features,nodes,edges,labels(40)
+---
 
-Form a folder called data and in it a folder corpus
-then when you run this file graph_node_labels.txt and graph_node_corpus.txt will be formed
+# 🚀 Research Paper Classification using Graph Networks 📚🔗
 
-/data/graph_node_labels.txt indicates document names, training/test split, document labels. Each line is for a document.
+## 🌟 Overview
 
-/data/corpus/graph_node_corpus.txt contains raw text of each document, each line is for the corresponding line in /data/graph_node_labels.txt
+This project focuses on classifying computer science research papers using a hybrid approach, combining text embeddings from **TextGCN** and embeddings from the **citation network**. The workflow involves loading, cleaning, and preprocessing data, creating graphs, and building models to generate embeddings. Finally, various combinations of embeddings are tested to predict the paper's class. 🎉
 
-Loading the Dataset:
+---
 
-  The ogbn-arxiv dataset is loaded using PygNodePropPredDataset.
-    The train, validation, and test splits are obtained.
+## 📂 Dataset Preparation and Loading
 
-Creating DataFrames:
+### 🔍 Data Extraction
 
-  A DataFrame (df_traintest) is created to store node IDs and their respective train/valid/test labels.
-    Another DataFrame (df_labels) is created to store node IDs and their labels.
+- **📂 Path:** `Data_extraction/loading_data.py`  
+- **Description:**  
+  This script extracts and loads the **ogbn-arxiv** dataset, a graph dataset representing computer science papers with nodes, features, edges, and 40-class labels. 🧩
 
-Data Merging:
+1. **Step-by-Step Process**:
+   - Creates a `dataset` folder containing `ogbn-arxiv` data.
+   - Displays nodes, features, edges, and labels for the graph.
+2. **Folder Structure**:
+   - `/data/graph_node_labels.txt`: Contains document names, training/test splits, and labels for each document.
+   - `/data/corpus/graph_node_corpus.txt`: Raw text of each document, corresponding to the labels.
 
-  The code merges the node ID mapping (nodeidx2paperid.csv) with a DataFrame containing paper titles and abstracts (new_titles_abstracts.tsv) to enrich the dataset with metadata.
+### 📦 Dataset Loading
 
-Preparing Sentences:
+- **Library**: `PygNodePropPredDataset`  
+- **Splits**: Data is divided into **train**, **validation**, and **test** sets.
 
-  Sentences are created by concatenating the title and abstract for each paper.
-    Labels and train/test indications are prepared for each node.
+### 🗂️ Creating DataFrames
 
-Writing to Files:
+1. **DataFrames Created**:
+   - `df_traintest`: Maps node IDs to their corresponding train/valid/test labels.
+   - `df_labels`: Maps node IDs to their class labels.
 
-  The metadata is written to graph_node_labels.txt.
-    The corpus is written to graph_node_corpus.txt.
+2. **Data Merging**:
+   - Merges `nodeidx2paperid.csv` with `new_titles_abstracts.tsv` for additional metadata.
 
-## Cleaning the data (preprocessing text)
-cleaning_text.ipynb is used to clean the title_abstractand stored in data/clean_100.txt.
+### ✍️ Preparing Sentences & Writing Files
 
-## Forming graph
-Then graph.ipynb is used to form the graph of words and documents and the corresponding files are stored in data/ and data/corpus/
+- Concatenates titles and abstracts for each paper.
+- Writes metadata to `graph_node_labels.txt`.
+- Writes the text corpus to `graph_node_corpus.txt`.
 
-## Train textGCN
-Then we will use train.py now to run textgcn on it to find the "text" embeddings for each doc
-https://github.com/yao8839836/text_gcn
-## Actual new link PyTorch
-https://github.com/codeKgu/Text-GCN
-Link to code for textgcn
+---
 
-## Train GCN
-gnn.ipynb is used to run GNN on citation graph loaded in loading_data file
-https://github.com/snap-stanford/ogb/tree/master/examples/nodeproppred/arxiv
-Code to run GNN on arxiv graph
-This will give us the "citation_network" embedding
+## 🧹 Data Cleaning
 
-## Training Metrics
-https://www.comet.com/kritiarora2003/textgcn/view/new/panels
+- **📓 Notebook**: `Data_extraction/cleaning_text.ipynb`  
+- **Purpose**:  
+  Cleans and processes text data (titles and abstracts) and stores the results in `Data_extraction/data/clean_100.txt`.
 
-Then we will predict the class using these embeddings by concatenating them or by using Neural network on them or by using ensemble learning maybe 
-if we want to do ensemble then both have to be trained on classification task 
+---
 
-## Project Structure
+## 🕸️ Graph Formation
 
-Here is the folder structure of the project:
+- **📓 Notebook**: `Data_extraction/graph.ipynb`  
+- **Functionality**:  
+  Builds a graph of words and documents. Outputs are stored in:
+  - `Data_extraction/data/`
+  - `Data_extraction/data/corpus/`
 
-```plaintext
-├── 4.3,4.4,4.5.pdf
-├── 4725-Article Text-7764-1-10-20190707-4.pdf
-├── BhavyaJain_12240420_SOP-1.pdf
-├── bm25.ipynb
-├── bow.py
-├── build_corpus.py
-├── build_graph.py
-├── cleaning_text.ipynb
-├── data
-│   ├── 1500.train.index
-│   ├── all_labels.txt
-│   ├── corpus
-│   │   ├── 5000_labels.txt
-│   │   ├── 5000_sentences.txt
-│   │   ├── all_corpus.txt
-│   │   ├── clean_1500.txt
-│   │   ├── clean_5000.txt
-│   │   ├── labels_1500.txt
-│   │   ├── selected_data.txt
-│   │   ├── shuffle_1500.txt
-│   │   ├── shuffle_5000.txt
-│   │   ├── vocab_1500.txt
-│   │   └── vocab_5000.txt
-│   ├── ind.1500.adj
-│   ├── ind.1500.allx
-│   ├── ind.1500.ally
-│   ├── ind.1500.test.index
-│   ├── ind.1500.tx
-│   ├── ind.1500.ty
-│   ├── ind.1500.x
-│   ├── ind.1500.y
-│   ├── read
-│   ├── real_train_1500.name
-│   ├── shuffle_1500.txt
-│   └── shuffle_5000.txt
-├── dataset
-│   ├── ogbn_arxiv
-│   │   ├── mapping
-│   │   │   ├── labelidx2arxivcategeory.csv.gz
-│   │   │   ├── nodeidx2paperid.csv
-│   │   │   ├── nodeidx2paperid.csv.gz
-│   │   │   └── README.md
-│   │   ├── processed
-│   │   │   ├── geometric_data_processed.pt
-│   │   │   ├── pre_filter.pt
-│   │   │   └── pre_transform.pt
-│   │   ├── raw
-│   │   │   ├── edge.csv.gz
-│   │   │   ├── node-feat.csv.gz
-│   │   │   ├── node-label.csv.gz
-│   │   │   ├── node_year.csv.gz
-│   │   │   ├── num-edge-list.csv.gz
-│   │   │   └── num-node-list.csv.gz
-│   │   ├── RELEASE_v1.txt
-│   │   └── split
-│   │       └── time
-│   │           ├── test.csv.gz
-│   │           ├── train.csv.gz
-│   │           └── valid.csv.gz
-│   └── ogbn_arxiv.zip
-├── doc2vec.py
-├── final
-│   ├── final_model.ipynb
-│   └── second_last_layer_embeddings.txt
-├── final_model.ipynb
-├── gnn_2_f.ipynb
-├── gnn.ipynb
-├── gnn_train_f.ipynb
-├── graph.ipynb
-├── __init__.py
-├── inits.py
-├── labels_sentences.ipynb
-├── layers.py
-├── Loading_data.ipynb
-├── logger.py
-├── metrics.py
-├── mlp.ipynb
-├── models.py
-├── new_titles_abstracts.tar.xz
-├── new_titles_abstracts.tsv
-├── node2vec.ipynb
-├── plot_dim.py
-├── plot_prop.py
-├── plot_window.py
-├── prepare_data.py
-├── README.md
-├── remove_words.py
-├── rough.ipynb
-├── Text-GCN
-│   ├── adj_graph
-│   ├── build_graph.py
-│   ├── config.py
-│   ├── data
-│   │   ├── corpus
-│   │   │   ├── ag_labels.txt
-│   │   │   ├── ag_presplit_vocab.txt
-│   │   │   ├── ag_sentences_clean.txt
-│   │   │   ├── ag_sentences.txt
-│   │   │   ├── final_labels.txt
-│   │   │   ├── final_presplit_vocab.txt
-│   │   │   ├── final_sentences_clean.txt
-│   │   │   ├── final_sentences.txt
-│   │   │   ├── final_vocab.txt
-│   │   │   ├── kb_labels.txt
-│   │   │   ├── kb_presplit_vocab.txt
-│   │   │   ├── kb_sentences_clean.txt
-│   │   │   ├── kb_sentences.txt
-│   │   │   ├── output_file.txt
-│   │   │   ├── r8_labels.txt
-│   │   │   ├── r8_presplit_vocab.txt
-│   │   │   ├── r8_sentences_clean.txt
-│   │   │   ├── r8_sentences.txt
-│   │   │   ├── twitter_asian_prejudice_labels.txt
-│   │   │   ├── twitter_asian_prejudice_sentences_clean.txt
-│   │   │   ├── twitter_asian_prejudice_sentences.txt
-│   │   │   ├── twitter_asian_prejudice_sentiment_vocab.txt
-│   │   │   ├── twitter_asian_prejudice_vocab.txt
-│   │   │   └── Untitled.ipynb
-│   │   └── text_graphs
-│   │       ├── twitter_text_graph_nohashtag.png
-│   │       └── twitter_text_graph.png
-│   ├── dataset.py
-│   ├── eval.py
-│   ├── LICENSE
-│   ├── load_data.py
-│   ├── main.py
-│   ├── model_factory.py
-│   ├── model_text_gnn.py
-│   ├── prep_data.py
-│   ├── README.md
-│   ├── saver.py
-│   ├── second_last_layer_embeddings.txt
-│   ├── text_gcn.png
-│   ├── train.py
-│   └── utils.py
-├── titleabs.zip
-├── train.ipynb
-├── train.py
-├── utils.py
-├── visualize.py
-├── visualize_words.py
-├── wordnet.py
-└── You_need_both_network_and_text.pdf
+---
 
+## 🧠 Text Embedding using Text-GCN
 
+- **📜 Script**: `Text-GCN-torch/main.py`  
+- **Goal**:  
+  Runs **Text-GCN** to generate text-based embeddings for each document. 📄🔗
 
+### ⚙️ Implementations
 
-## Classes
-These are the 40 classes in which we want to classify the papers
-cs.AI - Artificial Intelligence
-cs.AR - Hardware Architecture
-cs.CC - Computational Complexity
-cs.CE - Computational Engineering, Finance, and Science
-cs.CG - Computational Geometry
-cs.CL - Computation and Language
-cs.CR - Cryptography and Security
-cs.CV - Computer Vision and Pattern Recognition
-cs.CY - Computers and Society
-cs.DB - Databases
-cs.DC - Distributed, Parallel, and Cluster Computing
-cs.DL - Digital Libraries
-cs.DM - Discrete Mathematics
-cs.DS - Data Structures and Algorithms
-cs.ET - Emerging Technologies
-cs.FL - Formal Languages and Automata Theory
-cs.GL - General Literature
-cs.GR - Graphics
-cs.GT - Computer Science and Game Theory
-cs.HC - Human-Computer Interaction
-cs.IR - Information Retrieval
-cs.IT - Information Theory
-cs.LG - Machine Learning
-cs.LO - Logic in Computer Science
-cs.MA - Multiagent Systems
-cs.MM - Multimedia
-cs.MS - Mathematical Software
-cs.NA - Numerical Analysis
-cs.NE - Neural and Evolutionary Computing
-cs.NI - Networking and Internet Architecture
-cs.OH - Other Computer Science
-cs.OS - Operating Systems
-cs.PF - Performance
-cs.PL - Programming Languages
-cs.RO - Robotics
-cs.SC - Symbolic Computation
-cs.SD - Sound
-cs.SE - Software Engineering
-cs.SI - Social and Information Networks
-cs.SY - Systems and Control
+- **TensorFlow**: [TensorFlow Text-GCN](https://github.com/yao8839836/text_gcn)
+- **PyTorch**: [PyTorch Text-GCN](https://github.com/codeKgu/Text-GCN)
 
-Dataset taken from this paper
-Open Graph Benchmark:
-Datasets for Machine Learning on Graphs
+---
 
-paper for textgcn
-Graph Convolutional Networks for Text Classification
+## 🔗 GCN on Citation Network
 
-paper for idea of combining text and citations
-LEGAL CASE DOCUMENT SIMILARITY: YOU NEED BOTH
-NETWORK AND TEXT ∗
+- **📓 Notebook**: `GNN-citation/gnn.ipynb`  
+- **Description**:  
+  Applies a **Graph Neural Network (GNN)** to the citation graph from the data-loading step to produce "citation network" embeddings. 📑🌐
 
-APPENDIX
-https://stellargraph.readthedocs.io/en/stable/demos/embeddings/metapath2vec-embeddings.html
-Metapath2vec
+- **Reference**: [ogbn-arxiv Examples](https://github.com/snap-stanford/ogb/tree/master/examples/nodeproppred/arxiv)
 
-https://stellargraph.readthedocs.io/en/stable/demos/link-prediction/gcn-link-prediction.html
-GCN Link Prediction
+---
 
-https://graphsandnetworks.com/the-cora-dataset/
-the cora dataset
+## 🏆 Final Model
 
-https://stellargraph.readthedocs.io/en/stable/demos/basics/loading-pandas.html
-loading dataa into stellargraph from pandas
+- **📂 Folder**: `Final_Model`  
+- **Objective**:  
+  Combines embeddings from **TextGCN** and the **citation network** using various operations:
+  - 🔗 **Concatenation**
+  - ➕ **Addition**
+  - ✖️ **Multiplication**
 
-https://colab.research.google.com/drive/1hXwVDXaZNORPKzLGCDuY-rFHdlj1G-ap?usp=sharing
-reference gcn code
+- **Model**: An **Artificial Neural Network (ANN)** is used for final classification. 🤖
 
-https://ogb.stanford.edu/docs/nodeprop/
-load graph
+---
 
-https://arxiv.org/archive/cs
-scrap docs
+## 📊 Training Metrics & Visualization
+
+- **Training Panel**: [Comet Training Metrics](https://www.comet.com/kritiarora2003/textgcn/view/new/panels)
+
+---
+
+## 🎓 Classes for Classification
+
+This project classifies papers into **40 distinct classes**. Each class represents a specialized area of Computer Science. Examples include:
+
+- **cs.AI** - Artificial Intelligence 🤖
+- **cs.CV** - Computer Vision and Pattern Recognition 📸
+- **cs.LG** - Machine Learning 🔍  
+*(Refer to the full list [here](#classes))*  
+
+---
+
+## 📚 References & Additional Resources
+
+- **TextGCN Paper**: *Graph Convolutional Networks for Text Classification*  
+- **Combining Text & Citations**: *LEGAL CASE DOCUMENT SIMILARITY: YOU NEED BOTH NETWORK AND TEXT*  
+
+### 📖 Useful Links:
+
+- [Metapath2vec Embeddings](https://stellargraph.readthedocs.io/en/stable/demos/embeddings/metapath2vec-embeddings.html)
+- [GCN Link Prediction](https://stellargraph.readthedocs.io/en/stable/demos/link-prediction/gcn-link-prediction.html)
+- [The Cora Dataset](https://graphsandnetworks.com/the-cora-dataset/)
+- [StellarGraph Loading from Pandas](https://stellargraph.readthedocs.io/en/stable/demos/basics/loading-pandas.html)
+- [Reference GCN Code](https://colab.research.google.com/drive/1hXwVDXaZNORPKzLGCDuY-rFHdlj1G-ap?usp=sharing)
+
+---
+
+**Thank you for exploring this project!** ✨📈
+
+---
 
 
