@@ -13,8 +13,7 @@ For more details refer to `Data_extraction/README.md`
 ## Text Embedding using Text-GCN
 
 - **Script**: `Text-GCN-torch/main.py`  
-- **Goal**:  
-  Generates text-based embeddings for each document using **Text-GCN**.
+- **Goal**: Generates text-based embeddings for each document using **Text-GCN**.
 
 ### Implementations:
 
@@ -36,11 +35,10 @@ For more details refer to `Data_extraction/README.md`
 ## Final Model
 
 - **Folder**: `Final_Model`  
-- **Objective**:  
-  Combines embeddings from the **TextGCN** and **citation network** using operations like:
-  - Concatenation
-  - Addition
-  - Multiplication
+- **Objective**:Combines embeddings from the **TextGCN** and **citation network** using operations like:
+                  - Concatenation
+                  - Addition
+                  - Multiplication
 
 The combined embeddings are fed into an **Artificial Neural Network (ANN)** for classification.
 
