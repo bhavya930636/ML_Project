@@ -4,8 +4,6 @@ This folder contains graph visualizations created during the project, showcasing
 
 ## Images  
  
-   ![Graph Overview](1.jpeg)  
-   *Full graph for textgcn*  
 
 
    ![Clustered View](2.jpeg)  
@@ -14,6 +12,11 @@ This folder contains graph visualizations created during the project, showcasing
    ![Zoomed-In Section](zoomed_2.jpeg)  
    *A closer look at a specific part of the graph, focusing on node connections.*  
 
+   ![Graph Overview](4.jpeg)  
+   *Full graph for textgcn* 
  
-   ![Graph Subset](4.jpeg)  
+   ![Graph Subset](1.jpeg)  
    *Visualization of a smaller subset of the textgcn graph for better clarity.*  
+
+    
+
