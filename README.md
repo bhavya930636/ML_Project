@@ -102,6 +102,12 @@ The combined embeddings are fed into an **Artificial Neural Network (ANN)** for 
 
 - **Training Panel**: [Comet Training Metrics](https://www.comet.com/kritiarora2003/textgcn/view/new/panels)
 
+The `visualizing_graphs` folder contains all the code for generating graphs for better understanding and analysis. 
+
+![Alt Text](./visualizing_graphs/1.jpeg)
+![Alt Text](./visualizing_graphs/2.jpeg)
+
+
 ---
 
 ## Classes for Classification
@@ -134,3 +140,6 @@ Refer to the complete list of classes in the project overview.
 Thank you for exploring this project.
 
 ---
+
+Made with ❤️ at **IIT Bhilai**.
+
