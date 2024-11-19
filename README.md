@@ -60,7 +60,11 @@ https://www.comet.com/kritiarora2003/textgcn/view/new/panels
 Then we will predict the class using these embeddings by concatenating them or by using Neural network on them or by using ensemble learning maybe 
 if we want to do ensemble then both have to be trained on classification task 
 
+## Project Structure
 
+Here is the folder structure of the project:
+
+```plaintext
 .
 ├── 4.3,4.4,4.5.pdf
 ├── 4725-Article Text-7764-1-10-20190707-4.pdf
@@ -71,140 +75,34 @@ if we want to do ensemble then both have to be trained on classification task
 ├── build_graph.py
 ├── cleaning_text.ipynb
 ├── data
-│   ├── 1500.train.index
-│   ├── all_labels.txt
-│   ├── corpus
-│   │   ├── 5000_labels.txt
-│   │   ├── 5000_sentences.txt
-│   │   ├── all_corpus.txt
-│   │   ├── clean_1500.txt
-│   │   ├── clean_5000.txt
-│   │   ├── labels_1500.txt
-│   │   ├── selected_data.txt
-│   │   ├── shuffle_1500.txt
-│   │   ├── shuffle_5000.txt
-│   │   ├── vocab_1500.txt
-│   │   └── vocab_5000.txt
-│   ├── ind.1500.adj
-│   ├── ind.1500.allx
-│   ├── ind.1500.ally
-│   ├── ind.1500.test.index
-│   ├── ind.1500.tx
-│   ├── ind.1500.ty
-│   ├── ind.1500.x
-│   ├── ind.1500.y
-│   ├── read
-│   ├── real_train_1500.name
-│   ├── shuffle_1500.txt
-│   └── shuffle_5000.txt
+│   ├── 1500.train.index
+│   ├── all_labels.txt
+│   ├── corpus
+│   │   ├── 5000_labels.txt
+│   │   ├── 5000_sentences.txt
+│   │   ├── all_corpus.txt
+│   │   └── vocab_5000.txt
 ├── dataset
-│   ├── ogbn_arxiv
-│   │   ├── mapping
-│   │   │   ├── labelidx2arxivcategeory.csv.gz
-│   │   │   ├── nodeidx2paperid.csv
-│   │   │   ├── nodeidx2paperid.csv.gz
-│   │   │   └── README.md
-│   │   ├── processed
-│   │   │   ├── geometric_data_processed.pt
-│   │   │   ├── pre_filter.pt
-│   │   │   └── pre_transform.pt
-│   │   ├── raw
-│   │   │   ├── edge.csv.gz
-│   │   │   ├── node-feat.csv.gz
-│   │   │   ├── node-label.csv.gz
-│   │   │   ├── node_year.csv.gz
-│   │   │   ├── num-edge-list.csv.gz
-│   │   │   └── num-node-list.csv.gz
-│   │   ├── RELEASE_v1.txt
-│   │   └── split
-│   │       └── time
-│   │           ├── test.csv.gz
-│   │           ├── train.csv.gz
-│   │           └── valid.csv.gz
-│   └── ogbn_arxiv.zip
+│   ├── ogbn_arxiv
+│   │   ├── mapping
+│   │   │   ├── nodeidx2paperid.csv
+│   │   ├── processed
+│   │   │   ├── geometric_data_processed.pt
+│   │   └── split
+│   │       └── time
+│   │           ├── test.csv.gz
+│   │           └── train.csv.gz
 ├── doc2vec.py
-├── final
-│   ├── final_model.ipynb
-│   └── second_last_layer_embeddings.txt
 ├── final_model.ipynb
-├── gnn_2_f.ipynb
-├── gnn.ipynb
-├── gnn_train_f.ipynb
-├── graph.ipynb
-├── __init__.py
-├── inits.py
-├── labels_sentences.ipynb
-├── layers.py
-├── Loading_data.ipynb
-├── logger.py
-├── metrics.py
-├── mlp.ipynb
-├── models.py
-├── new_titles_abstracts.tar.xz
-├── new_titles_abstracts.tsv
-├── node2vec.ipynb
-├── plot_dim.py
-├── plot_prop.py
-├── plot_window.py
-├── prepare_data.py
-├── README.md
-├── remove_words.py
-├── rough.ipynb
 ├── Text-GCN
-│   ├── adj_graph
-│   ├── build_graph.py
-│   ├── config.py
-│   ├── data
-│   │   ├── corpus
-│   │   │   ├── ag_labels.txt
-│   │   │   ├── ag_presplit_vocab.txt
-│   │   │   ├── ag_sentences_clean.txt
-│   │   │   ├── ag_sentences.txt
-│   │   │   ├── final_labels.txt
-│   │   │   ├── final_presplit_vocab.txt
-│   │   │   ├── final_sentences_clean.txt
-│   │   │   ├── final_sentences.txt
-│   │   │   ├── final_vocab.txt
-│   │   │   ├── kb_labels.txt
-│   │   │   ├── kb_presplit_vocab.txt
-│   │   │   ├── kb_sentences_clean.txt
-│   │   │   ├── kb_sentences.txt
-│   │   │   ├── output_file.txt
-│   │   │   ├── r8_labels.txt
-│   │   │   ├── r8_presplit_vocab.txt
-│   │   │   ├── r8_sentences_clean.txt
-│   │   │   ├── r8_sentences.txt
-│   │   │   ├── twitter_asian_prejudice_labels.txt
-│   │   │   ├── twitter_asian_prejudice_sentences_clean.txt
-│   │   │   ├── twitter_asian_prejudice_sentences.txt
-│   │   │   ├── twitter_asian_prejudice_sentiment_vocab.txt
-│   │   │   ├── twitter_asian_prejudice_vocab.txt
-│   │   │   └── Untitled.ipynb
-│   │   └── text_graphs
-│   │       ├── twitter_text_graph_nohashtag.png
-│   │       └── twitter_text_graph.png
-│   ├── dataset.py
-│   ├── eval.py
-│   ├── LICENSE
-│   ├── load_data.py
-│   ├── main.py
-│   ├── model_factory.py
-│   ├── model_text_gnn.py
-│   ├── prep_data.py
-│   ├── README.md
-│   ├── saver.py
-│   ├── second_last_layer_embeddings.txt
-│   ├── text_gcn.png
-│   ├── train.py
-│   └── utils.py
-├── titleabs.zip
-├── train.ipynb
-├── train.py
-├── utils.py
-├── visualize.py
-├── visualize_words.py
-├── wordnet.py
-└── You_need_both_network_and_text.pdf
+│   ├── adj_graph
+│   ├── build_graph.py
+│   ├── data
+│   │   ├── corpus
+│   │   │   ├── ag_labels.txt
+│   │   │   └── r8_sentences_clean.txt
+└── train.py
+
 
 
 ## Classes
