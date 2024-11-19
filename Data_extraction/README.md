@@ -1,54 +1,94 @@
 
-### Data Extraction
+# Data Extraction and Preparation
 
-- **Path:** `Data_extraction/loading_data.py` 
-- **Description:** 
-  The script extracts and loads the **ogbn-arxiv** dataset, a graph dataset that represents computer science papers through nodes, features, edges, and 40-class labels.
+## **1. Data Extraction**
+**Script**: `Data_extraction/loading_data.py`
 
-#### Step-by-Step Process:
-1. Creates a `dataset` folder containing `ogbn-arxiv` data.
-2. Loads the graph data, displaying nodes, features, edges, and labels.
+### **Steps:**
+
+### **Dataset Download & Loading:**
+1. Install the required packages:
+   ```bash
+   # Install dependencies
+   pip install ogb
+   pip install torch torchvision torchaudio
+   pip install torch-scatter torch-sparse torch-cluster torch-spline-conv torch-geometric
    
-#### Folder Structure:
-- `/data/graph_node_labels.txt`: Contains document names, training/test splits, and labels for each document.
-- `/data/corpus/graph_node_corpus.txt`: Raw text of each document, aligned with the labels.
+2. Load the **ogbn-arxiv** dataset:
+   - Represents computer science papers as graph nodes with features, edges, and 40-class labels.
+   - The dataset is split into **train**, **validation**, and **test** sets.
 
-### Dataset Loading
-
-- **Library**: `PygNodePropPredDataset`  
-- The dataset is split into **train**, **validation**, and **test** sets.
-
-### Creating DataFrames
-
-1. **DataFrames Created**:
-   - `df_traintest`: Contains node IDs and their respective train/valid/test labels.
-   - `df_labels`: Contains node IDs and their corresponding class labels.
-
-2. **Data Merging**:
-   - Merges `nodeidx2paperid.csv` with `new_titles_abstracts.tsv` to enrich the dataset with additional metadata.
-
-### Preparing Sentences & Writing Files
-
-- Titles and abstracts for each paper are concatenated into sentences.
-- Metadata is written to `graph_node_labels.txt`.
-- Text corpus is saved in `graph_node_corpus.txt`.
+3. Save the dataset:
+   - Creates a `dataset` folder containing the `ogbn-arxiv` data.
+   - Loads and displays graph data, including nodes, features, edges, and labels.
 
 ---
 
-## Data Cleaning
+### **Metadata Enrichment:**
+- **Files Used:**
+  - `nodeidx2paperid.csv`
+  - `new_titles_abstracts.tsv`
+- Merge these files to map node IDs to paper IDs and enrich the dataset with metadata:
+  - **Columns**:
+    - `paper id`
+    - `title`
+    - `abstract`
+- Example:
+  | paper id | title                                     | abstract                                                                 |
+  |----------|-------------------------------------------|-------------------------------------------------------------------------|
+  | 200971   | ontology as a source for rule generation | This paper discloses the potential of OWL (Web Ontology Language)...   |
+  | 549074   | a novel methodology for thermal analysis  | The semiconductor industry is reaching a fascinating...               |
+  | ...      | ...                                       | ...                                                                   |
 
-- **Notebook**: `Data_extraction/cleaning_text.ipynb`  
-- **Purpose**:  
-  This step cleans and processes text data (titles and abstracts) and stores the cleaned data in `Data_extraction/data/clean_100.txt`.
+- Node ID mapping example:
+  | node idx | paper id  |
+  |----------|-----------|
+  | 0        | 9657784   |
+  | 1        | 39886162  |
+  | ...      | ...       |
 
 ---
 
-## Graph Formation
+## **2. Creating DataFrames**
+**Purpose**: Organize data into meaningful structures.
 
-- **Notebook**: `Data_extraction/graph.ipynb`  
-- **Functionality**:  
-  Constructs a graph of words and documents, with results saved in:
-  - `Data_extraction/data/`
-  - `Data_extraction/data/corpus/`
+### **DataFrames Created**:
+1. **`df_traintest`**:
+   - Contains `node ID` and their respective **train/valid/test** split labels.
+2. **`df_labels`**:
+   - Contains `node ID` and their respective **class labels**.
 
 ---
+
+## **3. Preparing Sentences & Files**
+- Titles and abstracts of papers are concatenated into full sentences.
+- Metadata written to:
+  - **`data/all_labels.txt`**: Contains `node ID`, split, and class label.
+  - **`data/corpus/all_corpus.txt`**: Raw text corpus aligned with the labels.
+
+---
+
+# Data Cleaning
+
+## **Notebook**: `Data_extraction/cleaning_text.ipynb`
+
+### **Purpose**:
+- Clean and process text data (titles and abstracts) for 1500 nodes.
+
+### **Outputs**:
+1. **Cleaned Data**:
+   - Saved as `Data_extraction/data/clean_1500.txt`.
+   - Uses the text corpus from `data/corpus/all_corpus.txt`.
+
+2. **Vocabulary Generation**:
+   - Copy node indices from this notebook.
+   - Paste into `data/graph.ipynb`.
+   - Creates `data/corpus/vocab_1500.txt` by combining all words from the cleaned text corpus.
+
+---
+
+# Instructions for Running Code:
+1. Run `Data_extraction/loading_data.py` to download, merge, and process metadata.
+2. Run `Data_extraction/cleaning_text.ipynb` to clean and process text data.
+3. In `data/graph.ipynb`, run the cells up to the point where `vocab_1500.txt` is created.
+```
