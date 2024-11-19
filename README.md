@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project focuses on classifying computer science research papers using a hybrid approach that combines text embeddings from **TextGCN** with embeddings from a **citation network**. The workflow involves loading, cleaning, and preprocessing data, creating graphs, and building models to generate embeddings. Various combinations of embeddings are tested to predict the paper's class, using multiple experiments to achieve optimal results.
+This project focuses on classifying computer science research papers using a hybrid approach that combines text embeddings from **TextGCN** with embeddings from a **citation network**. The workflow involves loading, cleaning, preprocessing data, creating graphs, and building models to generate embeddings. Various combinations of embeddings are tested to predict the paper's class, using multiple experiments to achieve optimal results.
 
 ---
 
@@ -25,8 +25,7 @@ For more details refer to `Data_extraction/README.md`
 ## GCN on Citation Network
 
 - **Notebook**: `GNN-citation/gnn.ipynb`  
-- **Description**:  
-  Applies a **Graph Neural Network (GNN)** to the citation graph produced during data loading, generating "citation network" embeddings.
+- **Description**: Applies a **Graph Neural Network (GNN)** to the citation graph produced during data loading, generating "citation network" embeddings.
 
 - **Reference**: [ogbn-arxiv Examples](https://github.com/snap-stanford/ogb/tree/master/examples/nodeproppred/arxiv)
 
@@ -35,10 +34,10 @@ For more details refer to `Data_extraction/README.md`
 ## Final Model
 
 - **Folder**: `Final_Model`  
-- **Objective**:Combines embeddings from the **TextGCN** and **citation network** using operations like:
-                  - Concatenation
-                  - Addition
-                  - Multiplication
+- **Objective**: Combines embeddings from the **TextGCN** and **citation network** using operations like:
+  - Concatenation
+  - Addition
+  - Multiplication
 
 The combined embeddings are fed into an **Artificial Neural Network (ANN)** for classification.
 
