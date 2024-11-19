@@ -53,7 +53,7 @@ The combined embeddings are fed into an **Artificial Neural Network (ANN)** for 
 The `visualizing_graphs` folder contains all the code for generating graphs for better understanding and analysis. 
 
 ![Alt Text](./visualizing_graphs/1.jpeg)
-![Alt Text](./visualizing_graphs/2.jpeg)
+![Alt Text](./visualizing_graphs/zoomed_2.jpeg)
 
 
 ---
