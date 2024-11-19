@@ -1,42 +1,54 @@
-## How to access the data
-Run the Loading_data file
 
-A folder called dataset will be loaded into your local system
-Graph will be loaded and you can see the features,nodes,edges,labels(40)
+### Data Extraction
 
-Form a folder called data and in it a folder corpus
-then when you run this file graph_node_labels.txt and graph_node_corpus.txt will be formed
+- **Path:** `Data_extraction/loading_data.py` 
+- **Description:** 
+  The script extracts and loads the **ogbn-arxiv** dataset, a graph dataset that represents computer science papers through nodes, features, edges, and 40-class labels.
 
-/data/graph_node_labels.txt indicates document names, training/test split, document labels. Each line is for a document.
+#### Step-by-Step Process:
+1. Creates a `dataset` folder containing `ogbn-arxiv` data.
+2. Loads the graph data, displaying nodes, features, edges, and labels.
+   
+#### Folder Structure:
+- `/data/graph_node_labels.txt`: Contains document names, training/test splits, and labels for each document.
+- `/data/corpus/graph_node_corpus.txt`: Raw text of each document, aligned with the labels.
 
-/data/corpus/graph_node_corpus.txt contains raw text of each document, each line is for the corresponding line in /data/graph_node_labels.txt
+### Dataset Loading
 
-Loading the Dataset:
+- **Library**: `PygNodePropPredDataset`  
+- The dataset is split into **train**, **validation**, and **test** sets.
 
-  The ogbn-arxiv dataset is loaded using PygNodePropPredDataset.
-    The train, validation, and test splits are obtained.
+### Creating DataFrames
 
-Creating DataFrames:
+1. **DataFrames Created**:
+   - `df_traintest`: Contains node IDs and their respective train/valid/test labels.
+   - `df_labels`: Contains node IDs and their corresponding class labels.
 
-  A DataFrame (df_traintest) is created to store node IDs and their respective train/valid/test labels.
-    Another DataFrame (df_labels) is created to store node IDs and their labels.
+2. **Data Merging**:
+   - Merges `nodeidx2paperid.csv` with `new_titles_abstracts.tsv` to enrich the dataset with additional metadata.
 
-Data Merging:
+### Preparing Sentences & Writing Files
 
-  The code merges the node ID mapping (nodeidx2paperid.csv) with a DataFrame containing paper titles and abstracts (new_titles_abstracts.tsv) to enrich the dataset with metadata.
+- Titles and abstracts for each paper are concatenated into sentences.
+- Metadata is written to `graph_node_labels.txt`.
+- Text corpus is saved in `graph_node_corpus.txt`.
 
-Preparing Sentences:
+---
 
-  Sentences are created by concatenating the title and abstract for each paper.
-    Labels and train/test indications are prepared for each node.
+## Data Cleaning
 
-Writing to Files:
+- **Notebook**: `Data_extraction/cleaning_text.ipynb`  
+- **Purpose**:  
+  This step cleans and processes text data (titles and abstracts) and stores the cleaned data in `Data_extraction/data/clean_100.txt`.
 
-  The metadata is written to graph_node_labels.txt.
-    The corpus is written to graph_node_corpus.txt.
+---
 
-## Cleaning the data (preprocessing text)
-cleaning_text.ipynb is used to clean the title_abstractand stored in data/clean_100.txt.
+## Graph Formation
 
-## Forming graph
-Then graph.ipynb is used to form the graph of words and documents and the corresponding files are stored in data/ and data/corpus/
+- **Notebook**: `Data_extraction/graph.ipynb`  
+- **Functionality**:  
+  Constructs a graph of words and documents, with results saved in:
+  - `Data_extraction/data/`
+  - `Data_extraction/data/corpus/`
+
+---
