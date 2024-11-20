@@ -1,5 +1,16 @@
 # Research Paper Classification using Graph Networks
 
+---
+
+## Team Name - True Positives
+### Members 
+1.Bhavya Jain(12240420)​
+2.Kriti Arora(12240880)​
+3.Mallarapu Hema Varshini(12240950)​
+4.Kaki Venkata Vaneesha(12240740)
+
+---
+
 ## Overview
 ### Each folder contains its own ReadMe file, you may visit them for more information. 
 
