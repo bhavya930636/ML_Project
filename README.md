@@ -1,6 +1,7 @@
 # Research Paper Classification using Graph Networks
 
 ## Overview
+### Each folder contains its own ReadMe file, you may visit them for more information. 
 
 This project focuses on classifying computer science research papers using a hybrid approach that combines text embeddings from **TextGCN** with embeddings from a **citation network**. The workflow involves loading, cleaning, preprocessing data, creating graphs, and building models to generate embeddings. Various combinations of embeddings are tested to predict the paper's class, using multiple experiments to achieve optimal results.
 
