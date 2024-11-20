@@ -71,7 +71,8 @@ Refer to the complete list of classes in the project overview.
 ## References & Additional Resources
 
 - **TextGCN Paper**: *Graph Convolutional Networks for Text Classification*  
-- **Combining Text & Citations**: *LEGAL CASE DOCUMENT SIMILARITY: YOU NEED BOTH NETWORK AND TEXT*  
+- **Combining Text & Citations**: *LEGAL CASE DOCUMENT SIMILARITY: YOU NEED BOTH NETWORK AND TEXT*
+- **Dataset and GNN** : https://arxiv.org/pdf/2005.00687
 
 ### Useful Links:
 
