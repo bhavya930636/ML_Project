@@ -4,10 +4,10 @@
 
 ## Team Name - True Positives
 ### Members 
-1.Bhavya Jain(12240420)​
-2.Kriti Arora(12240880)​
-3.Mallarapu Hema Varshini(12240950)​
-4.Kaki Venkata Vaneesha(12240740)
+### 1.Bhavya Jain(12240420)​ 
+### 2.Kriti Arora(12240880)​ 
+### 3.Mallarapu Hema Varshini(12240950)​
+### 4.Kaki Venkata Vaneesha(12240740)
 
 ---
 
